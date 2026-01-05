@@ -7,6 +7,11 @@ const noteSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
+    folder:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Folder',
+        default:null
+    },
     title:{
         type:String,
         required:true,

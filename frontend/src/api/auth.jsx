@@ -15,3 +15,12 @@ export const login = async (userData) => {
   localStorage.setItem("token", res.data.token);
   return res.data;
 };
+
+// Current user
+export const getMe = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${API_URL}/me`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  return res.data.user;
+};

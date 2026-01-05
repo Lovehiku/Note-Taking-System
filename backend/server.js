@@ -6,6 +6,7 @@ require('dotenv').config();
 //require routes
 const userRoutes=require('./routes/auth');
 const noteRoutes=require('./routes/notes');
+const folderRoutes=require('./routes/folders');
 
 
 
@@ -19,6 +20,7 @@ app.use(express.json());
 // Use routes
 app.use('/api/users',userRoutes);
 app.use('/api/notes',noteRoutes);   
+app.use('/api/folders',folderRoutes);   
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)

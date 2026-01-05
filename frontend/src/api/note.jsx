@@ -16,9 +16,9 @@ api.interceptors.request.use((config) => {
 });
 
 // Get all notes
-export async function getNotes() {
-  const res = await api.get("/");
-  return res.data.notes; // ✅ FIXED
+export async function getNotes(params) {
+  const res = await api.get("/", { params: params || {} });
+  return res.data.notes;
 }
 
 // Create note
