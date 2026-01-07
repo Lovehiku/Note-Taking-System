@@ -22,6 +22,7 @@ function Dashboard() {
   const [editingFolder, setEditingFolder] = useState(null);
   const [folderForm, setFolderForm] = useState({ name: "" });
   const [selectedFolder, setSelectedFolder] = useState(null);
+  const [theme, setTheme] = useState(document.documentElement.classList.contains("dark") ? "dark" : "light");
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -77,23 +78,23 @@ function Dashboard() {
     }
   }
   return (
-    <div className="min-h-screen bg-[#F4F6FA] py-6 px-4">
+    <div className="min-h-screen bg-[#F4F6FA] dark:bg-[#0F172A] dark:text-white py-6 px-4">
       <div className="max-w-[1200px] mx-auto flex">
         <aside className="w-[220px] mr-6">
-          <div className="bg-white rounded-2xl shadow-sm p-5">
+          <div className="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm p-5">
             <div className="flex items-center gap-2 mb-8">
               <div className="w-8 h-8 rounded-full bg-[#1F3B64] flex items-center justify-center text-white font-bold">
                 {(user?.username || "U").slice(0,1).toUpperCase()}
               </div>
-              <span className="text-[#1F3B64] font-semibold">{user?.username || "User"}</span>
+              <span className="text-[#1F3B64] dark:text-white font-semibold">{user?.username || "User"}</span>
             </div>
           </div>
         </aside>
 
         <main className="flex-1">
-          <div className="bg-white rounded-2xl shadow-sm p-6">
+          <div className="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-2xl tracking-wide font-semibold text-[#1C1C1C]">
+              <h1 className="text-2xl tracking-wide font-semibold text-[#1C1C1C] dark:text-white">
                 MY NOTES
               </h1>
               <div className="flex items-center gap-4">
@@ -105,18 +106,30 @@ function Dashboard() {
                   onChange={(e) => {
                       setQ(e.target.value);
                     }}
-                  className="w-[360px] h-11 rounded-xl border border-[#E6E8EC] pl-10 pr-4 text-[#7A7F87] placeholder-[#B0B5BD] focus:outline-none"
+                  className="w-[360px] h-11 rounded-xl border border-[#E6E8EC] dark:border-[#334155] pl-10 pr-4 text-[#7A7F87] dark:text-[#CBD5E1] placeholder-[#B0B5BD] dark:placeholder-[#64748B] focus:outline-none dark:bg-[#0B1220]"
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#B0B5BD]">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#B0B5BD] dark:text-[#64748B]">
                   🔍
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => navigate("/bookmarks")}
-                  className="px-4 h-10 rounded-md bg-[#E6E8EC]"
+                  className="px-4 h-10 rounded-md bg-[#E6E8EC] dark:bg-[#334155] dark:text-white"
                 >
                   Bookmarks
+                </button>
+                <button
+                  onClick={() => {
+                    const next = document.documentElement.classList.contains("dark") ? "light" : "dark";
+                    document.documentElement.classList.toggle("dark", next === "dark");
+                    localStorage.setItem("theme", next);
+                    setTheme(next);
+                  }}
+                  className="w-10 h-10 rounded-md bg-[#E6E8EC] dark:bg-[#334155] flex items-center justify-center"
+                  title="Toggle theme"
+                >
+                  {theme === "dark" ? "☀️" : "🌙"}
                 </button>
                 {/* <span className="text-sm text-[#7A7F87]">{user?.username || "User"}</span>
                 <div className="w-9 h-9 rounded-full bg-[#E6E8EC]" /> */}
@@ -125,10 +138,10 @@ function Dashboard() {
                     localStorage.removeItem("token");
                     window.location.href = "/login";
                   }}
-                  className="w-10 h-10 rounded-md bg-[#E6E8EC] flex items-center justify-center"
+                  className="w-10 h-10 rounded-md bg-[#E6E8EC] dark:bg-[#334155] flex items-center justify-center"
                   title="Logout"
                 >
-                  <img src="../public/image.png" alt="" />
+                  <img src="/image.png" alt="Logout" />
                 </button>
               </div>
             </div>
@@ -137,19 +150,19 @@ function Dashboard() {
             <section className="mb-8">
               <div className="flex items-center gap-6 mb-4 text-sm">
                 <button
-                  className={`transition ${folderRange === "today" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                  className={`transition ${folderRange === "today" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                   onClick={() => setFolderRange("today")}
                 >
                   Todays
                 </button>
                 <button
-                  className={`transition ${folderRange === "week" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                  className={`transition ${folderRange === "week" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                   onClick={() => setFolderRange("week")}
                 >
                   This Week
                 </button>
                 <button
-                  className={`transition ${folderRange === "month" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                  className={`transition ${folderRange === "month" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                   onClick={() => setFolderRange("month")}
                 >
                   This Month
@@ -159,7 +172,7 @@ function Dashboard() {
                 {folders.map((f) => (
                   <div
                     key={f._id}
-                    className="rounded-2xl bg-[#DCEEFE] p-5 shadow-sm"
+                    className="rounded-2xl bg-[#DCEEFE] dark:bg-[#1E293B] p-5 shadow-sm"
                     onClick={() => setSelectedFolder({ id: f._id, name: f.name })}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={async (e) => {
@@ -183,7 +196,7 @@ function Dashboard() {
                       <div className="w-10 h-10 rounded-lg bg-[#A8CDED]" />
                       <div className="flex gap-2">
                         <button
-                          className="text-[#7A7F87]"
+                          className="text-[#7A7F87] dark:text-[#CBD5E1]"
                           onClick={() => {
                             setEditingFolder(f);
                             setFolderForm({ name: f.name });
@@ -193,7 +206,7 @@ function Dashboard() {
                           ✎
                         </button>
                         <button
-                          className="text-[#7A7F87]"
+                          className="text-[#7A7F87] dark:text-[#CBD5E1]"
                           onClick={async () => {
                             const res = await fetch(`http://localhost:5000/api/folders/${f._id}`, {
                               method: "DELETE",
@@ -211,8 +224,8 @@ function Dashboard() {
                         </button>
                       </div>
                     </div>
-                    <div className="text-[#1C1C1C] font-medium">{f.name}</div>
-                    <div className="text-[#7A7F87] text-sm">
+                    <div className="text-[#1C1C1C] dark:text-white font-medium">{f.name}</div>
+                    <div className="text-[#7A7F87] dark:text-[#CBD5E1] text-sm">
                       {new Date(f.createdAt).toLocaleString()}
                     </div>
                   </div>
@@ -223,7 +236,7 @@ function Dashboard() {
                     setFolderForm({ name: "" });
                     setShowFolderModal(true);
                   }}
-                  className="rounded-2xl border border-dashed border-[#D7D9DE] p-5 text-center text-[#7A7F87] shadow-sm"
+                  className="rounded-2xl border border-dashed border-[#D7D9DE] dark:border-[#334155] p-5 text-center text-[#7A7F87] dark:text-[#CBD5E1] shadow-sm"
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={async (e) => {
                     const id = e.dataTransfer.getData("text/plain");
@@ -242,7 +255,7 @@ function Dashboard() {
                     }
                   }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#E6E8EC] mx-auto mb-3" />
+                  <div className="w-10 h-10 rounded-lg bg-[#E6E8EC] dark:bg-[#334155] mx-auto mb-3" />
                   <div>New folder</div>
                 </button>
               </div>
@@ -253,40 +266,40 @@ function Dashboard() {
                 <div className="flex items-center gap-3">
                   {selectedFolder ? (
                     <>
-                      <span className="text-sm text-[#1C1C1C] font-semibold">
+                      <span className="text-sm text-[#1C1C1C] dark:text-white font-semibold">
                         {selectedFolder.name}
                       </span>
                       <button
-                        className="text-xs px-2 py-1 rounded-md bg-[#E6E8EC]"
+                        className="text-xs px-2 py-1 rounded-md bg-[#E6E8EC] dark:bg-[#334155] dark:text-white"
                         onClick={() => setSelectedFolder(null)}
                       >
                         Clear
                       </button>
                     </>
                   ) : (
-                    <span className="text-sm text-[#7A7F87]">All Notes</span>
+                    <span className="text-sm text-[#7A7F87] dark:text-[#CBD5E1]">All Notes</span>
                   )}
                 </div>
-                <div className="text-[#7A7F87] text-sm">
+                <div className="text-[#7A7F87] dark:text-[#94A3B8] text-sm">
                   {new Date().toLocaleDateString(undefined, { year: "numeric", month: "long" })}
                 </div>
               </div>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-6 text-sm">
                   <button
-                    className={`transition ${noteRange === "today" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                    className={`transition ${noteRange === "today" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                     onClick={() => setNoteRange("today")}
                   >
                     Todays
                   </button>
                   <button
-                    className={`transition ${noteRange === "week" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                    className={`transition ${noteRange === "week" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                     onClick={() => setNoteRange("week")}
                   >
                     This Week
                   </button>
                   <button
-                    className={`transition ${noteRange === "month" ? "text-[#1C1C1C] font-semibold" : "text-[#7A7F87]"}`}
+                    className={`transition ${noteRange === "month" ? "text-[#1C1C1C] dark:text-white font-semibold" : "text-[#7A7F87] dark:text-[#CBD5E1]"}`}
                     onClick={() => setNoteRange("month")}
                   >
                     This Month
@@ -297,7 +310,7 @@ function Dashboard() {
                 </div> */}
               </div>
 
-              {loading && <div className="text-[#7A7F87]">Loading...</div>}
+              {loading && <div className="text-[#7A7F87] dark:text-[#CBD5E1]">Loading...</div>}
               {error && <div className="text-red-600">{error}</div>}
 
               {!loading && !error && (
@@ -312,7 +325,7 @@ function Dashboard() {
                         return (
                           <div
                             key={note._id}
-                            className={`rounded-2xl ${palette.bg} p-5 shadow-sm`}
+                            className={`rounded-2xl ${palette.bg} dark:bg-[#1E293B] p-5 shadow-sm`}
                             draggable
                             onClick={() => navigate(`/notes/${note._id}`)}
                             onDragStart={(e) => {
@@ -321,7 +334,7 @@ function Dashboard() {
                             }}
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <div className="text-xs uppercase tracking-wide text-[#7A7F87]">
+                              <div className="text-xs uppercase tracking-wide text-[#7A7F87] dark:text-[#CBD5E1]">
                                 {note.folder?.name || "category"}
                               </div>
                               <div className="flex items-center gap-2">
@@ -351,17 +364,17 @@ function Dashboard() {
                                 </button>
                               </div>
                             </div>
-                            <div className="text-[#1C1C1C] font-semibold mb-2">
+                            <div className="text-[#1C1C1C] dark:text-white font-semibold mb-2">
                               <span dangerouslySetInnerHTML={{ __html: highlight(note.title, q) }} />
                             </div>
-                            <div className="text-[#3E434A] text-sm leading-6 mb-6">
+                            <div className="text-[#3E434A] dark:text-[#CBD5E1] text-sm leading-6 mb-6">
                               <div
                                 dangerouslySetInnerHTML={{
                                   __html: highlight(note.content || "", q, 160),
                                 }}
                               />
                             </div>
-                            <div className="flex items-center justify-between text-[#7A7F87] text-xs">
+                            <div className="flex items-center justify-between text-[#7A7F87] dark:text-[#94A3B8] text-xs">
                               <span>
                                 {new Date(note.createdAt).toLocaleString(undefined, {
                                   weekday: "long",
@@ -406,9 +419,9 @@ function Dashboard() {
                     onClick={() => {
                       navigate("/createNote");
                     }}
-                    className="rounded-2xl border border-dashed border-[#D7D9DE] p-5 text-center text-[#7A7F87] shadow-sm"
+                    className="rounded-2xl border border-dashed border-[#D7D9DE] dark:border-[#334155] p-5 text-center text-[#7A7F87] dark:text-[#CBD5E1] shadow-sm"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-[#E6E8EC] mx-auto mb-3" />
+                    <div className="w-10 h-10 rounded-lg bg-[#E6E8EC] dark:bg-[#334155] mx-auto mb-3" />
                     <div>New Note</div>
                   </button>
                 </div>
@@ -416,11 +429,11 @@ function Dashboard() {
             </section>
             {showNoteModal && (
               <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-                <div className="bg-white rounded-2xl p-6 w-[420px]">
+                <div className="bg-white dark:bg-[#0B1220] rounded-2xl p-6 w-[420px]">
                   <div className="text-lg font-semibold mb-4">{editingNote ? "Edit Note" : "New Note"}</div>
                   <div className="space-y-3">
                     <input
-                      className="w-full h-10 rounded-md border border-[#E6E8EC] px-3"
+                      className="w-full h-10 rounded-md border border-[#E6E8EC] dark:border-[#334155] dark:bg-[#0B1220] dark:text-white px-3"
                       placeholder="Title"
                       value={noteForm.title}
                       onChange={(e) => setNoteForm({ ...noteForm, title: e.target.value })}
@@ -430,7 +443,7 @@ function Dashboard() {
                       onChange={(html) => setNoteForm({ ...noteForm, content: html })}
                     />
                     <select
-                      className="w-full h-10 rounded-md border border-[#E6E8EC] px-3"
+                      className="w-full h-10 rounded-md border border-[#E6E8EC] dark:border-[#334155] dark:bg-[#0B1220] dark:text-white px-3"
                       value={noteForm.folder}
                       onChange={(e) => setNoteForm({ ...noteForm, folder: e.target.value })}
                     >
@@ -444,7 +457,7 @@ function Dashboard() {
                   </div>
                   <div className="flex justify-end gap-3 mt-4">
                     <button
-                      className="px-4 py-2 rounded-md bg-[#E6E8EC]"
+                      className="px-4 py-2 rounded-md bg-[#E6E8EC] dark:bg-[#334155] dark:text-white"
                       onClick={() => setShowNoteModal(false)}
                     >
                       Cancel
@@ -492,17 +505,17 @@ function Dashboard() {
 
             {showFolderModal && (
               <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-                <div className="bg-white rounded-2xl p-6 w-[360px]">
+                <div className="bg-white dark:bg-[#0B1220] rounded-2xl p-6 w-[360px]">
                   <div className="text-lg font-semibold mb-4">{editingFolder ? "Edit Folder" : "New Folder"}</div>
                   <input
-                    className="w-full h-10 rounded-md border border-[#E6E8EC] px-3"
+                    className="w-full h-10 rounded-md border border-[#E6E8EC] dark:border-[#334155] dark:bg-[#0B1220] dark:text-white px-3"
                     placeholder="Folder name"
                     value={folderForm.name}
                     onChange={(e) => setFolderForm({ name: e.target.value })}
                   />
                   <div className="flex justify-end gap-3 mt-4">
                     <button
-                      className="px-4 py-2 rounded-md bg-[#E6E8EC]"
+                      className="px-4 py-2 rounded-md bg-[#E6E8EC] dark:bg-[#334155] dark:text-white"
                       onClick={() => setShowFolderModal(false)}
                     >
                       Cancel

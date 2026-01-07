@@ -46,24 +46,24 @@ function Bookmarks() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F4F6FA] py-6 px-4">
+    <div className="min-h-screen bg-[#F4F6FA] dark:bg-[#0F172A] dark:text-white py-6 px-4">
       <div className="max-w-[1200px] mx-auto">
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
+        <div className="bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl tracking-wide font-semibold text-[#1C1C1C]">BOOKMARKS</h1>
+              <h1 className="text-2xl tracking-wide font-semibold text-[#1C1C1C] dark:text-white">BOOKMARKS</h1>
               <input
                 type="text"
                 placeholder="Search"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                className="ml-4 w-[280px] h-10 rounded-xl border border-[#E6E8EC] px-3 text-[#7A7F87] placeholder-[#B0B5BD] focus:outline-none"
+                className="ml-4 w-[280px] h-10 rounded-xl border border-[#E6E8EC] dark:border-[#334155] px-3 text-[#7A7F87] dark:text-[#CBD5E1] placeholder-[#B0B5BD] dark:placeholder-[#64748B] focus:outline-none dark:bg-[#0B1220]"
               />
             </div>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate("/dashboard")}
-                className="px-4 h-10 rounded-md bg-[#E6E8EC]"
+                className="px-4 h-10 rounded-md bg-[#E6E8EC] dark:bg-[#334155] dark:text-white"
               >
                 Back
               </button>
@@ -71,7 +71,7 @@ function Bookmarks() {
           </div>
         </div>
 
-        {loading && <div className="text-[#7A7F87]">Loading...</div>}
+        {loading && <div className="text-[#7A7F87] dark:text-[#CBD5E1]">Loading...</div>}
         {error && <div className="text-red-600">{error}</div>}
 
         {!loading && !error && (
@@ -81,11 +81,11 @@ function Bookmarks() {
               .map((note, idx) => (
                 <div
                   key={note._id}
-                  className={`rounded-2xl ${palettes[idx % palettes.length]} p-5 shadow-sm`}
+                  className={`rounded-2xl ${palettes[idx % palettes.length]} dark:bg-[#1E293B] p-5 shadow-sm`}
                   onClick={() => navigate(`/notes/${note._id}`)}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-xs uppercase tracking-wide text-[#7A7F87]">
+                    <div className="text-xs uppercase tracking-wide text-[#7A7F87] dark:text-[#CBD5E1]">
                       {note.folder?.name || "category"}
                     </div>
                     <div className="flex items-center gap-2">
@@ -115,10 +115,10 @@ function Bookmarks() {
                       </button>
                     </div>
                   </div>
-                  <div className="text-[#1C1C1C] font-semibold mb-2">
+                  <div className="text-[#1C1C1C] dark:text-white font-semibold mb-2">
                     <span dangerouslySetInnerHTML={{ __html: highlight(note.title, q) }} />
                   </div>
-                  <div className="text-[#3E434A] text-sm leading-6">
+                  <div className="text-[#3E434A] dark:text-[#CBD5E1] text-sm leading-6">
                     <div
                       dangerouslySetInnerHTML={{
                         __html: highlight(note.content || "", q, 160),
